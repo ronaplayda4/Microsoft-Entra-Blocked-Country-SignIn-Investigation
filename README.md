@@ -83,7 +83,7 @@ This investigation provided practical experience with:
 
 The complete investigation report contains the Findings, Investigation, WHO/WHAT/WHEN/WHERE/WHY/HOW analysis, Recommendations, and supporting evidence screenshots.
 
-[View Full SOC Investigation Report](reports/SOC_Incident_477_Blocked_Country_SignIn_Investigation.pdf)
+[View Full SOC Investigation Report](SOC_Incident_477_Blocked_Country_SignIn_Investigation.docx)
 
 ## Disclaimer
 
