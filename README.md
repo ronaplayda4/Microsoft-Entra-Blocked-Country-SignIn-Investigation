@@ -4,15 +4,23 @@
 
 ## Project Overview
 
-This project documents a SOC investigation of a Microsoft 365 sign-in attempt from Switzerland that was blocked by Microsoft Entra Conditional Access.
+This project documents a Security Operations Center (SOC) investigation of a Microsoft 365 sign-in attempt from Switzerland that was blocked by Microsoft Entra Conditional Access.
 
-The activity was generated during an authorized security simulation to evaluate geographic access restrictions, Microsoft Sentinel detection capabilities, and incident response procedures.
+The activity was conducted as part of an authorized security simulation to evaluate geographic access restrictions, Microsoft Sentinel detection capabilities, and incident response procedures.
 
-**Incident ID:** 477  
-**Severity:** Medium  
-**Detection:** Blocked Country Sign-In - Conditional Access  
-**Final Status:** Resolved  
-**Classification:** Informational, expected activity — Security testing
+## Incident Overview
+
+| Field | Details |
+|---|---|
+| Incident ID | 477 |
+| Severity | Medium |
+| Alert | Blocked Country Sign-In - Conditional Access |
+| Source Location | Switzerland (CH) |
+| Application | One Outlook Web |
+| Error Code | 53003 |
+| Detection Source | Microsoft Sentinel |
+| Incident Status | Resolved |
+| Classification | Informational, expected activity — Security testing |
 
 ## Tools Used
 
@@ -27,39 +35,56 @@ The activity was generated during an authorized security simulation to evaluate 
 
 ## Investigation Summary
 
-A test account attempted to access One Outlook Web using a Switzerland VPN connection.
+During an authorized security simulation, a test account attempted to access Microsoft 365 through One Outlook Web using a Switzerland VPN connection.
 
-Microsoft Entra ID identified the source location as Switzerland and blocked the sign-in under the configured Conditional Access policy.
+Microsoft Entra ID evaluated the sign-in against the configured Conditional Access policy and blocked token issuance, returning error code **53003**.
 
-The sign-in generated error **53003**, indicating that token issuance was blocked.
+Microsoft Sentinel detected the blocked sign-in through a scheduled analytics rule and generated an alert in Microsoft Defender XDR under Incident 477.
 
-A Microsoft Sentinel scheduled analytics rule detected the event and generated an alert in Microsoft Defender XDR under Incident 477.
-
-Additional IP reputation analysis identified VPN/proxy characteristics. VirusTotal reported 2 detections out of 92 security vendors. These indicators alone did not establish malicious activity.
+Threat intelligence analysis using VirusTotal identified VPN/proxy indicators, with 2 out of 92 security vendors flagging the source IP. WHOIS information associated the IP with M247 Europe SRL (AS9009). These findings alone did not establish malicious activity.
 
 ## Investigation Workflow
 
-1. Simulated a Microsoft 365 sign-in from Switzerland using an authorized test account.
-2. Reviewed Microsoft Entra sign-in logs and confirmed Conditional Access error 53003.
-3. Investigated the Microsoft Sentinel detection and associated Defender XDR incident.
-4. Analyzed the source IP using VirusTotal and WHOIS.
-5. Documented findings and confirmed the investigated sign-in was blocked.
-6. Resolved Incident 477 and its associated alert as expected security testing activity.
+1. **Sign-In Simulation:** Attempted Microsoft 365 authentication through an authorized Switzerland VPN connection.
+2. **Sign-In Log Analysis:** Reviewed Microsoft Entra sign-in logs and confirmed Conditional Access error 53003.
+3. **Detection Analysis:** Investigated the Microsoft Sentinel scheduled analytics rule and its generated alert.
+4. **Incident Investigation:** Examined Microsoft Defender XDR Incident 477 and the associated sign-in activity.
+5. **Threat Intelligence:** Analyzed the source IP using VirusTotal and WHOIS.
+6. **Resolution:** Documented findings and resolved the incident and associated alert as expected security testing activity.
 
-## Outcome
+## Investigation Findings
 
-The configured Conditional Access policy successfully blocked the investigated sign-in. Microsoft Sentinel generated the expected detection, and the associated Microsoft Defender XDR incident was investigated and resolved.
+The configured Conditional Access policy successfully blocked the investigated sign-in attempt from Switzerland.
 
-No unauthorized access was established from the investigated attempt. Other sessions were not exhaustively assessed.
+Microsoft Sentinel generated the expected detection, and Microsoft Defender XDR created Incident 477 for investigation.
 
-**Final disposition:** Informational, expected activity — Security testing.
+The investigated sign-in did not result in token issuance. No unauthorized access was established from the reviewed attempt, although other account sessions were not exhaustively assessed.
+
+## Remediation and Resolution
+
+The existing Conditional Access policy successfully prevented access. No additional containment was required for this authorized simulation.
+
+The incident and associated alert were resolved with the classification:
+
+**Informational, expected activity — Security testing.**
 
 ## Key Takeaways
 
-This investigation provided hands-on experience with identity security monitoring, geographic access restrictions, KQL-based detection, threat intelligence analysis, and SOC incident documentation.
+This investigation provided practical experience with:
 
-It demonstrates how Microsoft Entra ID, Microsoft Sentinel, and Microsoft Defender XDR can work together to detect and investigate identity-related security events.
+- Identity security monitoring and geographic access restrictions
+- Microsoft Entra sign-in log analysis
+- KQL-based detection and Microsoft Sentinel analytics
+- Microsoft Defender XDR incident investigation
+- Threat intelligence enrichment
+- SOC documentation and incident resolution
+
+## Full Investigation Report
+
+The complete investigation report contains the Findings, Investigation, WHO/WHAT/WHEN/WHERE/WHY/HOW analysis, Recommendations, and supporting evidence screenshots.
+
+[View Full SOC Investigation Report](reports/SOC_Incident_477_Blocked_Country_SignIn_Investigation.pdf)
 
 ## Disclaimer
 
-This project was conducted in an authorized Microsoft 365 security lab. All activity was performed for educational and defensive security testing purposes. Sensitive account and tenant information should be redacted from publicly shared evidence.
+This investigation was conducted in an authorized Microsoft 365 security lab for educational and defensive security testing purposes. Sensitive account and tenant information should be redacted before public sharing.
